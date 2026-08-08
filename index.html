@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dogbaby Veterinaria — Turnos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1C2B2E;
+    --navy-deep:#121D1F;
+    --sage:#7FA98F;
+    --sage-soft:#DCEAE1;
+    --paper:#F2F6F1;
+    --amber:#E8A94B;
+    --white:#FCFEFC;
+    --line:#D6E0D9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--navy-deep);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  h1,h2,h3{
+    font-family:'Instrument Serif', serif;
+    font-weight:400;
+    color:var(--navy-deep);
+  }
+  a{color:inherit;}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 24px;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 24px;
+    background:rgba(242,246,241,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-family:'Instrument Serif', serif;
+    font-size:1.3rem;
+    display:flex; align-items:center; gap:9px;
+    color:var(--navy-deep);
+  }
+  .brand-dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--sage);
+    display:inline-block;
+  }
+  .nav-cta{
+    background:var(--navy-deep);
+    color:var(--white);
+    padding:10px 20px;
+    border-radius:4px;
+    font-size:0.85rem;
+    font-weight:500;
+    text-decoration:none;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:90px 0 70px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:50px;
+    align-items:center;
+  }
+  @media (max-width:840px){ .hero-grid{grid-template-columns:1fr;} }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--sage);
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:9px;
+  }
+  .eyebrow::before{content:'●'; font-size:0.6rem;}
+  .hero h1{
+    font-size:clamp(2.4rem, 5.2vw, 3.8rem);
+    line-height:1.05;
+    max-width:11ch;
+  }
+  .hero h1 i{color:var(--sage); font-style:italic;}
+  .hero p{
+    margin-top:22px;
+    font-size:1.02rem;
+    color:#455255;
+    max-width:42ch;
+  }
+  .hero-actions{
+    display:flex; gap:14px; flex-wrap:wrap;
+    margin-top:32px;
+  }
+  .btn-primary{
+    background:var(--navy-deep);
+    color:var(--white);
+    padding:15px 24px;
+    border-radius:4px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.92rem;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:background 0.2s ease;
+  }
+  .btn-primary:hover{background:var(--sage);}
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--navy-deep);
+    padding:15px 24px;
+    border-radius:4px;
+    text-decoration:none;
+    font-weight:500;
+    font-size:0.92rem;
+  }
+
+  /* ---------- VITALS SIGNATURE ---------- */
+  .vitals-card{
+    background:var(--navy-deep);
+    border-radius:8px;
+    padding:22px 26px 26px;
+  }
+  .dog-mascot{
+    display:block;
+    width:120px;
+    height:86px;
+    margin:0 auto 8px;
+  }
+  .dog-tail{
+    transform-origin:28px 55px;
+    transform-box:fill-box;
+    animation:wag 1s ease-in-out infinite;
+  }
+  @keyframes wag{
+    0%,100%{transform:rotate(0deg);}
+    50%{transform:rotate(-16deg);}
+  }
+  .dog-body{
+    animation:breathe 3.4s ease-in-out infinite;
+    transform-origin:center;
+    transform-box:fill-box;
+  }
+  @keyframes breathe{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.025);}
+  }
+  .dog-eye{
+    animation:dogblink 4.5s ease-in-out infinite;
+    transform-origin:center;
+    transform-box:fill-box;
+  }
+  @keyframes dogblink{
+    0%,94%,100%{transform:scaleY(1);}
+    97%{transform:scaleY(0.1);}
+  }
+  .vitals-top{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:18px;
+  }
+  .vitals-top .mono{
+    color:var(--sage-soft);
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    opacity:0.7;
+  }
+  .vitals-status{
+    display:flex; align-items:center; gap:6px;
+    color:var(--sage);
+    font-size:0.72rem;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .vitals-status .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--sage);
+    animation:blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:0.25;}}
+  .vitals-line{width:100%; height:90px;}
+  .vitals-line path{
+    fill:none;
+    stroke:var(--sage);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:600;
+    stroke-dashoffset:600;
+    animation:draw 3.2s ease-in-out infinite;
+  }
+  @keyframes draw{
+    0%{stroke-dashoffset:600;}
+    45%{stroke-dashoffset:0;}
+    100%{stroke-dashoffset:-600;}
+  }
+  .vitals-labels{
+    display:flex; justify-content:space-between;
+    margin-top:16px;
+  }
+  .vitals-labels div{color:var(--white); }
+  .vitals-labels .val{font-family:'Instrument Serif', serif; font-size:1.5rem;}
+  .vitals-labels .lab{font-size:0.7rem; color:var(--sage-soft); opacity:0.7; font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- SERVICES : RECORD LIST ---------- */
+  .services{padding:90px 0 60px;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap:24px; flex-wrap:wrap;
+    margin-bottom:42px;
+  }
+  .section-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:16ch;}
+  .section-head p{max-width:32ch; color:#5C6C6F; font-size:0.92rem;}
+  .record-list{border-top:1px solid var(--line);}
+  .record{
+    display:grid;
+    grid-template-columns:60px 1fr auto;
+    gap:20px;
+    align-items:center;
+    padding:24px 4px;
+    border-bottom:1px solid var(--line);
+    transition:background 0.2s ease;
+  }
+  .record:hover{background:var(--sage-soft);}
+  .record .code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--sage);
+  }
+  .record h3{font-size:1.15rem; font-weight:400;}
+  .record .desc{font-size:0.85rem; color:#5C6C6F; margin-top:4px; max-width:46ch;}
+  .record .dur{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:#7C8B8C;
+    white-space:nowrap;
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process{background:var(--white); padding:90px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .process-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:36px;
+    margin-top:40px;
+  }
+  .step{border-left:2px solid var(--sage); padding-left:20px;}
+  .step .n{font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:var(--sage);}
+  .step h3{font-size:1.1rem; margin-top:10px; font-weight:400;}
+  .step p{font-size:0.87rem; color:#5C6C6F; margin-top:6px;}
+
+  /* ---------- BOOKING ---------- */
+  .booking{padding:100px 0;}
+  .booking-inner{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:56px;
+    align-items:start;
+  }
+  @media (max-width:840px){.booking-inner{grid-template-columns:1fr;}}
+  .booking-intro h2{font-size:clamp(1.7rem,3vw,2.2rem); max-width:14ch;}
+  .booking-intro p{margin-top:16px; color:#5C6C6F; font-size:0.92rem; max-width:36ch;}
+  .booking-form{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:32px;
+  }
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;
+    font-size:0.74rem;
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.04em;
+    color:#5C6C6F;
+    margin-bottom:6px;
+    text-transform:uppercase;
+  }
+  .field input, .field select{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.94rem;
+    background:var(--paper);
+    color:var(--navy-deep);
+  }
+  .field input:focus, .field select:focus{
+    outline:2px solid var(--sage);
+    outline-offset:1px;
+  }
+  .row-2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+
+  /* ---------- CALENDAR ---------- */
+  .cal{
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px;
+    background:var(--paper);
+  }
+  .cal-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .cal-month{font-size:0.82rem; color:var(--navy-deep); letter-spacing:0.04em;}
+  .cal-nav{
+    background:none; border:1px solid var(--line); border-radius:4px;
+    width:28px; height:28px; cursor:pointer;
+    font-size:1rem; color:var(--navy-deep);
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.15s ease;
+  }
+  .cal-nav:hover{background:var(--sage-soft);}
+  .cal-weekdays{
+    display:grid; grid-template-columns:repeat(7,1fr);
+    text-align:center;
+    font-size:0.66rem; color:#7C8B8C;
+    margin-bottom:6px;
+  }
+  .cal-grid{
+    display:grid; grid-template-columns:repeat(7,1fr);
+    gap:3px;
+  }
+  .cal-day{
+    aspect-ratio:1;
+    display:flex; align-items:center; justify-content:center;
+    border:none; background:none;
+    border-radius:4px;
+    font-family:'Work Sans', sans-serif;
+    font-size:0.82rem;
+    color:var(--navy-deep);
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .cal-day:hover:not(:disabled){background:var(--sage-soft);}
+  .cal-day:disabled{color:#C7D2CB; cursor:default;}
+  .cal-day.empty{visibility:hidden; cursor:default;}
+  .cal-day.selected{background:var(--navy-deep); color:var(--white);}
+  .cal-day.today:not(.selected)::after{
+    content:'';
+    display:block;
+    width:4px; height:4px; border-radius:50%;
+    background:var(--sage);
+    margin-top:2px;
+  }
+  .time-slots{display:flex; gap:8px; flex-wrap:wrap;}
+  .slot{
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--navy-deep);
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:0.82rem;
+    font-family:'Work Sans', sans-serif;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .slot:hover{border-color:var(--sage);}
+  .slot.selected{background:var(--navy-deep); color:var(--white); border-color:var(--navy-deep);}
+  @media (max-width:480px){.row-2{grid-template-columns:1fr;}}
+  .submit-btn{
+    width:100%;
+    background:var(--navy-deep);
+    color:var(--white);
+    border:none;
+    padding:15px;
+    border-radius:4px;
+    font-weight:600;
+    font-size:0.94rem;
+    cursor:pointer;
+    transition:background 0.2s ease;
+  }
+  .submit-btn:hover{background:var(--sage);}
+  .submit-note{font-size:0.76rem; color:#7C8B8C; margin-top:10px; text-align:center;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--navy-deep); color:var(--sage-soft); padding:44px 0 26px;}
+  .footer-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:22px; padding-bottom:26px; border-bottom:1px solid rgba(255,255,255,0.1);}
+  .footer-grid .brand{color:var(--white);}
+  .footer-grid .brand-dot{background:var(--sage);}
+  .footer-contact{font-size:0.85rem; line-height:1.8;}
+  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:18px; font-size:0.76rem; opacity:0.6;}
+
+  .wa-float{
+    position:fixed; bottom:22px; right:22px; z-index:60;
+    background:#25D366; width:56px; height:56px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 20px rgba(0,0,0,0.2);
+    text-decoration:none;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><span class="brand-dot"></span>Dogbaby</div>
+  <a class="nav-cta" href="#booking">Reservar turno</a>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Ahora con turnos online</div>
+      <h1>Cuidado que tu mascota <i>sí</i> va a disfrutar.</h1>
+      <p>Consultas, vacunas y peluquería para perros y gatos. Reservá un turno en menos de un minuto, sin cola telefónica.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#booking">Reservar un turno →</a>
+        <a class="btn-ghost" href="https://wa.me/5491100000000" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+      </div>
+    </div>
+    <div class="vitals-card">
+      <svg class="dog-mascot" viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path class="dog-tail" d="M28,55 C10,50 5,35 15,20" fill="none" stroke="var(--sage-soft)" stroke-width="6" stroke-linecap="round"/>
+        <ellipse class="dog-body" cx="65" cy="70" rx="34" ry="25" fill="var(--sage-soft)" opacity="0.16" stroke="var(--sage-soft)" stroke-width="2"/>
+        <rect x="52" y="84" width="8" height="14" rx="4" fill="var(--sage-soft)" opacity="0.5"/>
+        <rect x="72" y="84" width="8" height="14" rx="4" fill="var(--sage-soft)" opacity="0.5"/>
+        <path class="dog-ear" d="M87,25 C79,17 77,29 83,35 Z" fill="var(--sage-soft)" opacity="0.45"/>
+        <circle cx="98" cy="42" r="21" fill="var(--sage-soft)" opacity="0.18" stroke="var(--sage-soft)" stroke-width="2"/>
+        <ellipse cx="117" cy="48" rx="11" ry="8" fill="var(--sage-soft)" opacity="0.18" stroke="var(--sage-soft)" stroke-width="2"/>
+        <circle cx="126" cy="46" r="3" fill="var(--amber)"/>
+        <circle class="dog-eye" cx="102" cy="36" r="3" fill="var(--white)"/>
+        <path d="M88,54 Q98,60 110,54" fill="none" stroke="var(--amber)" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="99" cy="59" r="3" fill="var(--amber)"/>
+      </svg>
+      <div class="vitals-top">
+        <span class="mono">MONITOR DEL PACIENTE</span>
+        <span class="vitals-status"><span class="dot"></span>ESTABLE</span>
+      </div>
+      <svg class="vitals-line" viewBox="0 0 300 90" preserveAspectRatio="none">
+        <path d="M0,45 L40,45 L55,45 L65,15 L75,75 L85,30 L95,45 L140,45 L155,45 L165,20 L175,70 L185,35 L195,45 L300,45"/>
+      </svg>
+      <div class="vitals-labels">
+        <div><span class="val">38.5°</span><br><span class="lab">TEMPERATURA</span></div>
+        <div><span class="val">120</span><br><span class="lab">RITMO CARDÍACO</span></div>
+        <div><span class="val">Apto</span><br><span class="lab">ÚLTIMO CONTROL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services wrap">
+  <div class="section-head">
+    <h2>Qué atendemos, de un vistazo</h2>
+    <p>Cada visita termina con notas claras enviadas directo a tu celular.</p>
+  </div>
+  <div class="record-list">
+    <div class="record">
+      <span class="code mono">CG</span>
+      <div><h3>Control General</h3><p class="desc">Examen físico completo, control de peso y chequeo de salud para perros y gatos.</p></div>
+      <span class="dur">~30 min</span>
+    </div>
+    <div class="record">
+      <span class="code mono">VA</span>
+      <div><h3>Vacunación</h3><p class="desc">Vacunas obligatorias y opcionales, con seguimiento del calendario a tu nombre.</p></div>
+      <span class="dur">~15 min</span>
+    </div>
+    <div class="record">
+      <span class="code mono">PD</span>
+      <div><h3>Peluquería &amp; Dental</h3><p class="desc">Baño, corte de pelo, cuidado de uñas y control dental.</p></div>
+      <span class="dur">~45 min</span>
+    </div>
+    <div class="record">
+      <span class="code mono">DX</span>
+      <div><h3>Diagnóstico &amp; Cirugía</h3><p class="desc">Análisis de sangre, imágenes y procedimientos menores, explicados antes de avanzar.</p></div>
+      <span class="dur">Según consulta</span>
+    </div>
+    <div class="record">
+      <span class="code mono">UR</span>
+      <div><h3>Urgencias</h3><p class="desc">Turnos del mismo día reservados para lo que no puede esperar.</p></div>
+      <span class="dur">Prioridad</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section class="process">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:0;">
+      <h2>Tres pasos para tu turno</h2>
+      <p>No hace falta llamar, salvo que prefieras hablar.</p>
+    </div>
+    <div class="process-grid">
+      <div class="step"><span class="n">01</span><h3>Contanos sobre tu mascota</h3><p>Especie, qué le pasa, y más o menos cuándo te queda bien.</p></div>
+      <div class="step"><span class="n">02</span><h3>Confirmamos por WhatsApp</h3><p>Te llega un horario confirmado, generalmente en pocas horas.</p></div>
+      <div class="step"><span class="n">03</span><h3>La traés a la consulta</h3><p>Te enviamos notas escritas después de cada visita, así no se te olvida nada.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BOOKING ================= -->
+<section class="booking wrap" id="booking">
+  <div class="booking-inner">
+    <div class="booking-intro">
+      <div class="eyebrow">Solicitá un turno</div>
+      <h2>Conseguí un horario sin música de espera.</h2>
+      <p>Completá esto y se abre directo en WhatsApp con todo ya cargado — solo tenés que enviarlo.</p>
+    </div>
+    <form class="booking-form" id="bookingForm">
+      <div class="field">
+        <label for="owner">Tu nombre</label>
+        <input type="text" id="owner" placeholder="ej. Andrea Fernández" required />
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label for="pet">Nombre de tu mascota</label>
+          <input type="text" id="pet" placeholder="ej. Rocky" />
+        </div>
+        <div class="field">
+          <label for="species">Especie</label>
+          <select id="species">
+            <option>Perro</option>
+            <option>Gato</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="service">Motivo de la consulta</label>
+        <select id="service">
+          <option>Control General</option>
+          <option>Vacunación</option>
+          <option>Peluquería & Dental</option>
+          <option>Diagnóstico / Cirugía</option>
+          <option>Urgencia</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Elegí una fecha</label>
+        <div class="cal">
+          <div class="cal-head">
+            <button type="button" class="cal-nav" id="calPrev" aria-label="Mes anterior">‹</button>
+            <span class="cal-month mono" id="calMonth"></span>
+            <button type="button" class="cal-nav" id="calNext" aria-label="Mes siguiente">›</button>
+          </div>
+          <div class="cal-weekdays mono">
+            <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Elegí un horario</label>
+        <div class="time-slots" id="timeSlots">
+          <button type="button" class="slot" data-slot="Mañana (9–12)">Mañana</button>
+          <button type="button" class="slot" data-slot="Tarde (12–16)">Tarde</button>
+          <button type="button" class="slot" data-slot="Noche (16–19)">Noche</button>
+        </div>
+      </div>
+      <input type="hidden" id="date" value="">
+      <button type="submit" class="submit-btn">Enviar solicitud por WhatsApp →</button>
+      <p class="submit-note">Se abre WhatsApp con tus datos ya completados.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="brand"><span class="brand-dot"></span>Dogbaby</div>
+        <p style="font-size:0.84rem; margin-top:10px; max-width:32ch; opacity:0.8;">Atención veterinaria independiente, con turnos online.</p>
+      </div>
+      <div class="footer-contact">
+        WhatsApp: +54 9 11 0000-0000<br>
+        Horario: Lun–Sáb, 9:00–19:00<br>
+        Se atienden urgencias sin turno
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Dogbaby</span>
+      <span>Sitio de muestra — hecho por Oyinlola</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5491100000000" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.03 4C7.6 4 4 7.6 4 12.02c0 1.42.37 2.8 1.08 4.02L4 20l4.06-1.06a8.03 8.03 0 0 0 3.97 1.01h.01c4.42 0 8.02-3.6 8.02-8.02 0-2.14-.84-4.15-2.46-5.61Zm-5.57 12.3h-.01a6.7 6.7 0 0 1-3.4-.93l-.24-.14-2.4.63.64-2.34-.16-.24a6.66 6.66 0 0 1-1.02-3.58c0-3.68 3-6.68 6.69-6.68 1.79 0 3.47.7 4.73 1.96a6.63 6.63 0 0 1 1.96 4.72c0 3.69-3 6.6-6.79 6.6Zm3.66-4.96c-.2-.1-1.18-.58-1.36-.65-.18-.07-.32-.1-.45.1-.13.2-.51.65-.63.78-.11.13-.23.15-.43.05-.2-.1-.85-.31-1.61-.99-.6-.53-1-1.19-1.11-1.39-.12-.2-.01-.3.09-.4.09-.09.2-.23.3-.35.1-.11.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.08-.61-1.48-.16-.39-.33-.33-.45-.34l-.38-.01c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.67 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.84.32 1.13.41.47.15.9.13 1.24.08.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.95-.05-.09-.18-.14-.38-.24Z"/></svg>
+</a>
+
+<script>
+  // ---------- CALENDAR ----------
+  const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  let calDate = new Date();
+  calDate.setDate(1);
+  let selectedDate = null;
+  let selectedSlot = null;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  function renderCalendar(){
+    const grid = document.getElementById('calGrid');
+    const monthLabel = document.getElementById('calMonth');
+    grid.innerHTML = '';
+    monthLabel.textContent = `${monthNames[calDate.getMonth()]} ${calDate.getFullYear()}`.toUpperCase();
+
+    const year = calDate.getFullYear();
+    const month = calDate.getMonth();
+    const firstDay = new Date(year, month, 1);
+    // Monday-first weekday index (0=Mon ... 6=Sun)
+    let startOffset = (firstDay.getDay() + 6) % 7;
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for(let i=0; i<startOffset; i++){
+      const empty = document.createElement('span');
+      empty.className = 'cal-day empty';
+      grid.appendChild(empty);
+    }
+
+    for(let d=1; d<=daysInMonth; d++){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cal-day';
+      btn.textContent = d;
+      const thisDate = new Date(year, month, d);
+      thisDate.setHours(0,0,0,0);
+
+      if(thisDate < today || thisDate.getDay() === 0){
+        btn.disabled = true; // past dates and Sundays (closed) disabled
+      }
+      if(thisDate.getTime() === today.getTime()){
+        btn.classList.add('today');
+      }
+      if(selectedDate && thisDate.getTime() === selectedDate.getTime()){
+        btn.classList.add('selected');
+      }
+      btn.addEventListener('click', () => {
+        selectedDate = thisDate;
+        updateHiddenDate();
+        renderCalendar();
+      });
+      grid.appendChild(btn);
+    }
+  }
+
+  function updateHiddenDate(){
+    const dateInput = document.getElementById('date');
+    const dateStr = selectedDate
+      ? selectedDate.toLocaleDateString('es-AR', { weekday:'short', day:'numeric', month:'short' })
+      : '';
+    const slotStr = selectedSlot || '';
+    dateInput.value = [dateStr, slotStr].filter(Boolean).join(' — ');
+  }
+
+  document.getElementById('calPrev').addEventListener('click', () => {
+    calDate.setMonth(calDate.getMonth() - 1);
+    renderCalendar();
+  });
+  document.getElementById('calNext').addEventListener('click', () => {
+    calDate.setMonth(calDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  document.querySelectorAll('.slot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedSlot = btn.dataset.slot;
+      updateHiddenDate();
+    });
+  });
+
+  renderCalendar();
+
+  // ---------- FORM SUBMIT ----------
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const owner = document.getElementById('owner').value || 'me';
+    const pet = document.getElementById('pet').value || 'mi mascota';
+    const species = document.getElementById('species').value;
+    const service = document.getElementById('service').value;
+    const date = document.getElementById('date').value || 'a coordinar';
+    const text = `Hola, quiero reservar un turno.%0ADueño/a: ${owner}%0AMascota: ${pet} (${species})%0AMotivo: ${service}%0AFecha/horario preferido: ${date}`;
+    window.open(`https://wa.me/5491100000000?text=${text}`, '_blank');
+  });
+</script>
+
+</body>
+</html>
