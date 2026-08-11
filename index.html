@@ -3,566 +3,577 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dogbaby Veterinaria — Turnos</title>
+<title>Dogbaby — Pasaporte de Salud Verificado</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#1C2B2E;
-    --navy-deep:#121D1F;
-    --sage:#7FA98F;
-    --sage-soft:#DCEAE1;
-    --paper:#F2F6F1;
-    --amber:#E8A94B;
-    --white:#FCFEFC;
-    --line:#D6E0D9;
+    --void:#060B09;
+    --panel:#0D1512;
+    --panel-2:#101B16;
+    --line:rgba(127,255,195,0.14);
+    --line-soft:rgba(127,255,195,0.07);
+    --mint:#6FFFC3;
+    --mint-dim:#3E9E7C;
+    --violet:#B98CFF;
+    --amber:#FFB84D;
+    --pink:#FF7AB8;
+    --text:#E9F5EF;
+    --text-dim:#93A79E;
+    --text-mute:#516059;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    background:var(--paper);
-    color:var(--navy-deep);
-    font-family:'Work Sans', sans-serif;
-    line-height:1.55;
+    background:var(--void);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
   }
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
   }
   h1,h2,h3{
-    font-family:'Instrument Serif', serif;
-    font-weight:400;
-    color:var(--navy-deep);
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--text);
+    letter-spacing:-0.01em;
   }
   a{color:inherit;}
-  .wrap{max-width:1060px; margin:0 auto; padding:0 24px;}
-  .mono{font-family:'IBM Plex Mono', monospace;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  .grad-text{
+    background:linear-gradient(100deg, var(--mint), var(--violet) 60%, var(--pink));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  /* ---------- AMBIENT BACKGROUND ---------- */
+  .bg-grid{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 70%);
+  }
+  .bg-glow{
+    position:fixed; z-index:0; pointer-events:none; filter:blur(90px); opacity:0.35;
+    border-radius:50%;
+  }
+  .bg-glow.g1{width:520px; height:520px; background:var(--mint); top:-180px; left:-140px;}
+  .bg-glow.g2{width:460px; height:460px; background:var(--violet); top:20%; right:-180px;}
+  .bg-glow.g3{width:420px; height:420px; background:var(--pink); bottom:-160px; left:30%; opacity:0.18;}
+
+  section, nav, footer{position:relative; z-index:1;}
 
   /* ---------- NAV ---------- */
   nav{
     position:sticky; top:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 24px;
-    background:rgba(242,246,241,0.9);
-    backdrop-filter:blur(8px);
+    padding:16px 24px;
+    background:rgba(6,11,9,0.72);
+    backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);
   }
   .brand{
-    font-family:'Instrument Serif', serif;
-    font-size:1.3rem;
-    display:flex; align-items:center; gap:9px;
-    color:var(--navy-deep);
+    font-family:'Fraunces', serif;
+    font-size:1.28rem;
+    display:flex; align-items:center; gap:10px;
+    color:var(--text);
   }
   .brand-dot{
     width:9px; height:9px; border-radius:50%;
-    background:var(--sage);
+    background:var(--mint);
+    box-shadow:0 0 10px var(--mint), 0 0 2px var(--mint);
     display:inline-block;
+    animation:blink 1.8s ease-in-out infinite;
   }
+  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:0.35;}}
+  .nav-right{display:flex; align-items:center; gap:14px;}
+  .nav-net{
+    display:flex; align-items:center; gap:7px;
+    font-size:0.7rem; color:var(--text-dim);
+    letter-spacing:0.05em; text-transform:uppercase;
+    padding:7px 12px; border:1px solid var(--line); border-radius:999px;
+  }
+  .nav-net .dot2{width:6px; height:6px; border-radius:50%; background:var(--mint); box-shadow:0 0 6px var(--mint);}
   .nav-cta{
-    background:var(--navy-deep);
-    color:var(--white);
+    background:linear-gradient(100deg, var(--mint), #4CD8A6);
+    color:#04120C;
     padding:10px 20px;
-    border-radius:4px;
+    border-radius:6px;
     font-size:0.85rem;
-    font-weight:500;
+    font-weight:700;
     text-decoration:none;
+    box-shadow:0 0 0 rgba(111,255,195,0);
+    transition:box-shadow 0.25s ease, transform 0.2s ease;
   }
+  .nav-cta:hover{box-shadow:0 0 22px rgba(111,255,195,0.45); transform:translateY(-1px);}
+
+  /* ---------- TICKER ---------- */
+  .ticker{
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+    overflow:hidden;
+    white-space:nowrap;
+    padding:9px 0;
+  }
+  .ticker-track{
+    display:inline-flex;
+    gap:38px;
+    animation:ticker 34s linear infinite;
+    padding-left:100%;
+  }
+  @keyframes ticker{ from{transform:translateX(0);} to{transform:translateX(-100%);} }
+  .ticker-item{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.74rem;
+    color:var(--text-dim);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .ticker-item .ok{color:var(--mint);}
+  .ticker-item b{color:var(--text); font-weight:500;}
 
   /* ---------- HERO ---------- */
-  .hero{
-    padding:90px 0 70px;
-    position:relative;
-    overflow:hidden;
-  }
+  .hero{padding:80px 0 60px;}
   .hero-grid{
     display:grid;
-    grid-template-columns:1.1fr 0.9fr;
-    gap:50px;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
     align-items:center;
   }
-  @media (max-width:840px){ .hero-grid{grid-template-columns:1fr;} }
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
   .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.76rem;
-    letter-spacing:0.12em;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:0.14em;
     text-transform:uppercase;
-    color:var(--sage);
-    margin-bottom:18px;
-    display:flex; align-items:center; gap:9px;
+    color:var(--mint);
+    margin-bottom:20px;
+    display:inline-flex; align-items:center; gap:9px;
+    border:1px solid var(--line);
+    padding:7px 13px 7px 11px;
+    border-radius:999px;
+    background:rgba(111,255,195,0.05);
   }
-  .eyebrow::before{content:'●'; font-size:0.6rem;}
+  .eyebrow::before{content:'●'; font-size:0.55rem; color:var(--mint);}
   .hero h1{
-    font-size:clamp(2.4rem, 5.2vw, 3.8rem);
-    line-height:1.05;
-    max-width:11ch;
+    font-size:clamp(2.3rem, 4.8vw, 3.6rem);
+    line-height:1.08;
+    max-width:13ch;
   }
-  .hero h1 i{color:var(--sage); font-style:italic;}
   .hero p{
     margin-top:22px;
-    font-size:1.02rem;
-    color:#455255;
-    max-width:42ch;
+    font-size:1.03rem;
+    color:var(--text-dim);
+    max-width:44ch;
   }
   .hero-actions{
     display:flex; gap:14px; flex-wrap:wrap;
-    margin-top:32px;
+    margin-top:34px;
   }
   .btn-primary{
-    background:var(--navy-deep);
-    color:var(--white);
+    background:linear-gradient(100deg, var(--mint), #4CD8A6);
+    color:#04120C;
     padding:15px 24px;
-    border-radius:4px;
+    border-radius:6px;
     text-decoration:none;
-    font-weight:600;
+    font-weight:700;
     font-size:0.92rem;
     display:inline-flex; align-items:center; gap:8px;
-    transition:background 0.2s ease;
+    transition:box-shadow 0.25s ease, transform 0.2s ease;
   }
-  .btn-primary:hover{background:var(--sage);}
+  .btn-primary:hover{box-shadow:0 0 26px rgba(111,255,195,0.4); transform:translateY(-1px);}
   .btn-ghost{
     border:1px solid var(--line);
-    color:var(--navy-deep);
+    color:var(--text);
     padding:15px 24px;
-    border-radius:4px;
+    border-radius:6px;
     text-decoration:none;
     font-weight:500;
     font-size:0.92rem;
+    background:rgba(255,255,255,0.02);
+    transition:border-color 0.2s ease, background 0.2s ease;
   }
-
-  /* ---------- VITALS SIGNATURE ---------- */
-  .vitals-card{
-    background:var(--navy-deep);
-    border-radius:8px;
-    padding:22px 26px 26px;
-  }
-  .dog-mascot{
-    display:block;
-    width:120px;
-    height:86px;
-    margin:0 auto 8px;
-  }
-  .dog-tail{
-    transform-origin:28px 55px;
-    transform-box:fill-box;
-    animation:wag 1s ease-in-out infinite;
-  }
-  @keyframes wag{
-    0%,100%{transform:rotate(0deg);}
-    50%{transform:rotate(-16deg);}
-  }
-  .dog-body{
-    animation:breathe 3.4s ease-in-out infinite;
-    transform-origin:center;
-    transform-box:fill-box;
-  }
-  @keyframes breathe{
-    0%,100%{transform:scale(1);}
-    50%{transform:scale(1.025);}
-  }
-  .dog-eye{
-    animation:dogblink 4.5s ease-in-out infinite;
-    transform-origin:center;
-    transform-box:fill-box;
-  }
-  @keyframes dogblink{
-    0%,94%,100%{transform:scaleY(1);}
-    97%{transform:scaleY(0.1);}
-  }
-  .vitals-top{
-    display:flex; justify-content:space-between; align-items:center;
-    margin-bottom:18px;
-  }
-  .vitals-top .mono{
-    color:var(--sage-soft);
+  .btn-ghost:hover{border-color:var(--mint); background:rgba(111,255,195,0.06);}
+  .hero-trust{
+    display:flex; gap:22px; flex-wrap:wrap;
+    margin-top:38px;
+    font-family:'JetBrains Mono', monospace;
     font-size:0.72rem;
+    color:var(--text-mute);
+  }
+  .hero-trust span b{color:var(--text); font-weight:500;}
+
+  /* ---------- PASSPORT CARD (signature element) ---------- */
+  .passport{
+    position:relative;
+    border-radius:16px;
+    padding:1px;
+    background:linear-gradient(140deg, rgba(111,255,195,0.55), rgba(185,140,255,0.4) 45%, rgba(255,122,184,0.35));
+    background-size:220% 220%;
+    animation:borderflow 7s ease infinite;
+  }
+  @keyframes borderflow{
+    0%{background-position:0% 30%;}
+    50%{background-position:100% 70%;}
+    100%{background-position:0% 30%;}
+  }
+  .passport-inner{
+    background:linear-gradient(180deg, #0B1512, #081109);
+    border-radius:15px;
+    padding:26px 26px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .passport-inner::before{
+    content:'';
+    position:absolute; left:0; right:0; height:130px;
+    background:linear-gradient(180deg, rgba(111,255,195,0.16), transparent);
+    animation:scan 4.2s ease-in-out infinite;
+  }
+  @keyframes scan{
+    0%{top:-140px;}
+    100%{top:100%;}
+  }
+  .passport-top{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:18px; position:relative; z-index:1;
+  }
+  .passport-top .mono{
+    color:var(--text-dim);
+    font-size:0.68rem;
     letter-spacing:0.08em;
     text-transform:uppercase;
-    opacity:0.7;
   }
-  .vitals-status{
+  .passport-id{color:var(--mint); font-size:0.72rem; margin-top:4px;}
+  .passport-status{
     display:flex; align-items:center; gap:6px;
-    color:var(--sage);
-    font-size:0.72rem;
-    font-family:'IBM Plex Mono', monospace;
+    color:var(--mint);
+    font-size:0.68rem;
+    font-family:'JetBrains Mono', monospace;
+    border:1px solid var(--line);
+    padding:5px 10px; border-radius:999px;
+    background:rgba(111,255,195,0.05);
   }
-  .vitals-status .dot{
-    width:6px; height:6px; border-radius:50%; background:var(--sage);
+  .passport-status .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--mint); box-shadow:0 0 6px var(--mint);
     animation:blink 1.6s ease-in-out infinite;
   }
-  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:0.25;}}
-  .vitals-line{width:100%; height:90px;}
+  .dog-mascot{ display:block; width:130px; height:92px; margin:6px auto 4px; position:relative; z-index:1;}
+  .dog-tail{ transform-origin:28px 55px; transform-box:fill-box; animation:wag 1s ease-in-out infinite;}
+  @keyframes wag{ 0%,100%{transform:rotate(0deg);} 50%{transform:rotate(-16deg);} }
+  .dog-body{ animation:breathe 3.4s ease-in-out infinite; transform-origin:center; transform-box:fill-box;}
+  @keyframes breathe{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.025);} }
+  .dog-eye{ animation:dogblink 4.5s ease-in-out infinite; transform-origin:center; transform-box:fill-box;}
+  @keyframes dogblink{ 0%,94%,100%{transform:scaleY(1);} 97%{transform:scaleY(0.1);} }
+  .vitals-line{width:100%; height:84px; position:relative; z-index:1;}
   .vitals-line path{
-    fill:none;
-    stroke:var(--sage);
-    stroke-width:2;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-    stroke-dasharray:600;
-    stroke-dashoffset:600;
+    fill:none; stroke:var(--mint); stroke-width:2;
+    stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:600; stroke-dashoffset:600;
     animation:draw 3.2s ease-in-out infinite;
+    filter:drop-shadow(0 0 4px rgba(111,255,195,0.6));
   }
-  @keyframes draw{
-    0%{stroke-dashoffset:600;}
-    45%{stroke-dashoffset:0;}
-    100%{stroke-dashoffset:-600;}
+  @keyframes draw{ 0%{stroke-dashoffset:600;} 45%{stroke-dashoffset:0;} 100%{stroke-dashoffset:-600;} }
+  .vitals-labels{ display:flex; justify-content:space-between; margin-top:14px; position:relative; z-index:1;}
+  .vitals-labels div{color:var(--text);}
+  .vitals-labels .val{font-family:'Fraunces', serif; font-size:1.4rem; color:var(--mint);}
+  .vitals-labels .lab{font-size:0.66rem; color:var(--text-mute); font-family:'JetBrains Mono', monospace; letter-spacing:0.03em;}
+  .passport-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:20px; padding-top:16px; border-top:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:0.66rem; color:var(--text-mute);
+    position:relative; z-index:1;
   }
-  .vitals-labels{
-    display:flex; justify-content:space-between;
-    margin-top:16px;
-  }
-  .vitals-labels div{color:var(--white); }
-  .vitals-labels .val{font-family:'Instrument Serif', serif; font-size:1.5rem;}
-  .vitals-labels .lab{font-size:0.7rem; color:var(--sage-soft); opacity:0.7; font-family:'IBM Plex Mono', monospace;}
+  .passport-foot .conf{color:var(--violet);}
 
-  /* ---------- SERVICES : RECORD LIST ---------- */
-  .services{padding:90px 0 60px;}
+  /* ---------- SERVICES : PROTOCOL LIST ---------- */
+  .services{padding:100px 0 60px;}
   .section-head{
     display:flex; justify-content:space-between; align-items:flex-end;
     gap:24px; flex-wrap:wrap;
-    margin-bottom:42px;
+    margin-bottom:44px;
   }
-  .section-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:16ch;}
-  .section-head p{max-width:32ch; color:#5C6C6F; font-size:0.92rem;}
-  .record-list{border-top:1px solid var(--line);}
-  .record{
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:clamp(1.7rem,3.2vw,2.3rem); max-width:17ch;}
+  .section-head p{max-width:34ch; color:var(--text-dim); font-size:0.92rem;}
+  .protocol-grid{
     display:grid;
-    grid-template-columns:60px 1fr auto;
-    gap:20px;
-    align-items:center;
-    padding:24px 4px;
-    border-bottom:1px solid var(--line);
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  @media (max-width:720px){ .protocol-grid{grid-template-columns:1fr;} }
+  .protocol{
+    background:var(--panel);
+    padding:26px 24px;
     transition:background 0.2s ease;
+    position:relative;
   }
-  .record:hover{background:var(--sage-soft);}
-  .record .code{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.75rem;
-    color:var(--sage);
+  .protocol:hover{background:var(--panel-2);}
+  .protocol-top{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .protocol .code{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    color:var(--void);
+    background:var(--mint);
+    padding:3px 8px;
+    border-radius:4px;
+    font-weight:700;
   }
-  .record h3{font-size:1.15rem; font-weight:400;}
-  .record .desc{font-size:0.85rem; color:#5C6C6F; margin-top:4px; max-width:46ch;}
-  .record .dur{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.78rem;
-    color:#7C8B8C;
-    white-space:nowrap;
+  .protocol .dur{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.68rem;
+    color:var(--text-mute);
+    margin-left:auto;
   }
+  .protocol h3{font-size:1.12rem; font-weight:500; margin-bottom:6px;}
+  .protocol .desc{font-size:0.85rem; color:var(--text-dim); max-width:42ch;}
 
   /* ---------- PROCESS ---------- */
-  .process{background:var(--white); padding:90px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .process{background:var(--panel); padding:100px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
   .process-grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:36px;
-    margin-top:40px;
+    gap:1px;
+    margin-top:44px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
   }
-  .step{border-left:2px solid var(--sage); padding-left:20px;}
-  .step .n{font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:var(--sage);}
-  .step h3{font-size:1.1rem; margin-top:10px; font-weight:400;}
-  .step p{font-size:0.87rem; color:#5C6C6F; margin-top:6px;}
+  .step{background:var(--void); padding:28px 24px;}
+  .step .n{
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--mint);
+    display:inline-block; border:1px solid var(--line); padding:4px 9px; border-radius:999px;
+  }
+  .step h3{font-size:1.08rem; margin-top:14px; font-weight:500;}
+  .step p{font-size:0.87rem; color:var(--text-dim); margin-top:7px;}
 
   /* ---------- BOOKING ---------- */
   .booking{padding:100px 0;}
   .booking-inner{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:0.85fr 1.15fr;
     gap:56px;
     align-items:start;
   }
-  @media (max-width:840px){.booking-inner{grid-template-columns:1fr;}}
+  @media (max-width:900px){.booking-inner{grid-template-columns:1fr;}}
   .booking-intro h2{font-size:clamp(1.7rem,3vw,2.2rem); max-width:14ch;}
-  .booking-intro p{margin-top:16px; color:#5C6C6F; font-size:0.92rem; max-width:36ch;}
-  .booking-form{
-    background:var(--white);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:32px;
+  .booking-intro p{margin-top:16px; color:var(--text-dim); font-size:0.92rem; max-width:36ch;}
+  .booking-intro .mini-log{
+    margin-top:30px; border:1px solid var(--line); border-radius:10px; padding:16px 18px;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--text-mute);
+    background:var(--panel);
   }
-  .field{margin-bottom:16px;}
+  .booking-intro .mini-log div{padding:5px 0;}
+  .booking-intro .mini-log .ok{color:var(--mint);}
+  .booking-form{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:32px;
+    box-shadow:0 0 60px rgba(111,255,195,0.03);
+  }
+  .field{margin-bottom:17px;}
   .field label{
     display:block;
-    font-size:0.74rem;
-    font-family:'IBM Plex Mono', monospace;
-    letter-spacing:0.04em;
-    color:#5C6C6F;
-    margin-bottom:6px;
+    font-size:0.7rem;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.05em;
+    color:var(--text-dim);
+    margin-bottom:7px;
     text-transform:uppercase;
   }
   .field input, .field select{
     width:100%;
-    padding:11px 13px;
+    padding:12px 13px;
     border:1px solid var(--line);
-    border-radius:4px;
-    font-family:'Work Sans', sans-serif;
+    border-radius:6px;
+    font-family:'Inter', sans-serif;
     font-size:0.94rem;
-    background:var(--paper);
-    color:var(--navy-deep);
+    background:var(--void);
+    color:var(--text);
   }
+  .field select{ color-scheme: dark; }
+  .field input::placeholder{color:var(--text-mute);}
   .field input:focus, .field select:focus{
-    outline:2px solid var(--sage);
-    outline-offset:1px;
+    outline:none;
+    border-color:var(--mint);
+    box-shadow:0 0 0 3px rgba(111,255,195,0.14);
   }
   .row-2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
 
   /* ---------- CALENDAR ---------- */
   .cal{
     border:1px solid var(--line);
-    border-radius:6px;
+    border-radius:8px;
     padding:16px;
-    background:var(--paper);
+    background:var(--void);
   }
-  .cal-head{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom:12px;
-  }
-  .cal-month{font-size:0.82rem; color:var(--navy-deep); letter-spacing:0.04em;}
+  .cal-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;}
+  .cal-month{font-size:0.8rem; color:var(--text); letter-spacing:0.05em;}
   .cal-nav{
-    background:none; border:1px solid var(--line); border-radius:4px;
+    background:none; border:1px solid var(--line); border-radius:5px;
     width:28px; height:28px; cursor:pointer;
-    font-size:1rem; color:var(--navy-deep);
+    font-size:1rem; color:var(--text);
     display:flex; align-items:center; justify-content:center;
-    transition:background 0.15s ease;
+    transition:background 0.15s ease, border-color 0.15s ease;
   }
-  .cal-nav:hover{background:var(--sage-soft);}
+  .cal-nav:hover{background:rgba(111,255,195,0.08); border-color:var(--mint);}
   .cal-weekdays{
     display:grid; grid-template-columns:repeat(7,1fr);
-    text-align:center;
-    font-size:0.66rem; color:#7C8B8C;
-    margin-bottom:6px;
+    text-align:center; font-size:0.64rem; color:var(--text-mute); margin-bottom:6px;
+    font-family:'JetBrains Mono', monospace;
   }
-  .cal-grid{
-    display:grid; grid-template-columns:repeat(7,1fr);
-    gap:3px;
-  }
+  .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px;}
   .cal-day{
-    aspect-ratio:1;
-    display:flex; align-items:center; justify-content:center;
-    border:none; background:none;
-    border-radius:4px;
-    font-family:'Work Sans', sans-serif;
-    font-size:0.82rem;
-    color:var(--navy-deep);
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    border:none; background:none; border-radius:5px;
+    font-family:'Inter', sans-serif; font-size:0.82rem; color:var(--text);
     cursor:pointer;
     transition:background 0.15s ease, color 0.15s ease;
   }
-  .cal-day:hover:not(:disabled){background:var(--sage-soft);}
-  .cal-day:disabled{color:#C7D2CB; cursor:default;}
+  .cal-day:hover:not(:disabled){background:rgba(111,255,195,0.1);}
+  .cal-day:disabled{color:#2A332E; cursor:default;}
   .cal-day.empty{visibility:hidden; cursor:default;}
-  .cal-day.selected{background:var(--navy-deep); color:var(--white);}
+  .cal-day.selected{background:var(--mint); color:#04120C; font-weight:700;}
   .cal-day.today:not(.selected)::after{
-    content:'';
-    display:block;
-    width:4px; height:4px; border-radius:50%;
-    background:var(--sage);
-    margin-top:2px;
+    content:''; display:block; width:4px; height:4px; border-radius:50%;
+    background:var(--mint); margin-top:2px;
   }
   .time-slots{display:flex; gap:8px; flex-wrap:wrap;}
   .slot{
     border:1px solid var(--line);
-    background:var(--paper);
-    color:var(--navy-deep);
+    background:var(--void);
+    color:var(--text);
     padding:10px 16px;
     border-radius:999px;
     font-size:0.82rem;
-    font-family:'Work Sans', sans-serif;
+    font-family:'JetBrains Mono', monospace;
     cursor:pointer;
     transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
-  .slot:hover{border-color:var(--sage);}
-  .slot.selected{background:var(--navy-deep); color:var(--white); border-color:var(--navy-deep);}
-  .slot.full{
-    background:var(--paper);
-    color:#B9C4BE;
-    border-color:var(--line);
-    cursor:not-allowed;
-    text-decoration:line-through;
-    text-decoration-color:#C7D2CB;
-  }
-  .slot.full:hover{border-color:var(--line);}
-  .cal-availability{
-    display:flex; align-items:center; gap:6px;
-    font-size:0.74rem;
-    color:#5C6C6F;
-    margin-top:10px;
-    min-height:1.2em;
-  }
-  .cal-availability .av-dot{
-    width:6px; height:6px; border-radius:50%;
-    background:var(--sage);
-    flex-shrink:0;
-  }
-  .cal-availability.low .av-dot{background:var(--amber);}
-  @keyframes shake{
-    0%,100%{transform:translateX(0);}
-    20%,60%{transform:translateX(-4px);}
-    40%,80%{transform:translateX(4px);}
-  }
-  .shake{animation:shake 0.4s ease;}
-
-  /* ---------- LIVE COUNTER ---------- */
-  .live-chip{
-    display:inline-flex; align-items:center; gap:8px;
-    background:var(--sage-soft);
-    color:var(--navy-deep);
-    padding:8px 14px;
-    border-radius:999px;
-    font-size:0.78rem;
-    font-family:'IBM Plex Mono', monospace;
-    margin-top:18px;
-  }
-  .live-chip .pulse-dot{
-    width:7px; height:7px; border-radius:50%;
-    background:var(--sage);
-    animation:blink 1.6s ease-in-out infinite;
-  }
-  .live-chip .live-num{
-    font-weight:600;
-    transition:transform 0.25s ease;
-  }
-  .live-chip .live-num.bump{transform:scale(1.3); color:var(--amber);}
-
-  /* ---------- TOASTS ---------- */
-  #toastContainer{
-    position:fixed;
-    bottom:22px; left:22px; z-index:70;
-    display:flex; flex-direction:column; gap:10px;
-    max-width:300px;
-  }
-  .toast{
-    background:var(--navy-deep);
-    color:var(--white);
-    padding:13px 16px;
-    border-radius:6px;
-    font-size:0.8rem;
-    box-shadow:0 8px 24px rgba(0,0,0,0.2);
-    display:flex; align-items:center; gap:10px;
-    opacity:0;
-    transform:translateY(10px);
-    animation:toast-in 0.35s ease forwards, toast-out 0.35s ease forwards 3.6s;
-    border-left:3px solid var(--sage);
-  }
-  .toast .toast-emoji{font-size:1rem;}
-  @keyframes toast-in{to{opacity:1; transform:translateY(0);}}
-  @keyframes toast-out{to{opacity:0; transform:translateY(-8px);}}
-  @media (max-width:600px){
-    #toastContainer{left:14px; right:14px; max-width:none;}
-  }
-
-  /* ---------- CONFIRM MODAL ---------- */
-  .modal-overlay{
-    position:fixed; inset:0; z-index:80;
-    background:rgba(18,29,31,0.55);
-    backdrop-filter:blur(3px);
-    display:none;
-    align-items:center; justify-content:center;
-    padding:20px;
-  }
-  .modal-overlay.open{display:flex;}
-  .modal-card{
-    background:var(--white);
-    border-radius:10px;
-    padding:30px;
-    max-width:400px;
-    width:100%;
-    animation:modal-in 0.25s ease;
-  }
-  @keyframes modal-in{from{opacity:0; transform:translateY(14px) scale(0.98);} to{opacity:1; transform:translateY(0) scale(1);}}
-  .modal-card .eyebrow{margin-bottom:10px;}
-  .modal-card h3{font-size:1.4rem; margin-bottom:16px;}
-  .modal-summary{
-    background:var(--paper);
-    border-radius:6px;
-    padding:16px;
-    margin-bottom:20px;
-    font-size:0.88rem;
-  }
-  .modal-summary div{display:flex; justify-content:space-between; padding:5px 0;}
-  .modal-summary div:not(:last-child){border-bottom:1px solid var(--line);}
-  .modal-summary span:first-child{color:#5C6C6F;}
-  .modal-summary span:last-child{font-weight:500; text-align:right;}
-  .modal-actions{display:flex; gap:10px;}
-  .modal-actions .btn-ghost{flex:1; text-align:center; cursor:pointer; background:none; font-family:'Work Sans',sans-serif;}
-  .modal-actions .submit-btn{flex:1.4;}
+  .slot:hover{border-color:var(--mint);}
+  .slot.selected{background:var(--mint); color:#04120C; border-color:var(--mint); font-weight:700;}
   @media (max-width:480px){.row-2{grid-template-columns:1fr;}}
   .submit-btn{
     width:100%;
-    background:var(--navy-deep);
-    color:var(--white);
+    background:linear-gradient(100deg, var(--mint), #4CD8A6);
+    color:#04120C;
     border:none;
-    padding:15px;
-    border-radius:4px;
-    font-weight:600;
+    padding:16px;
+    border-radius:7px;
+    font-weight:700;
     font-size:0.94rem;
     cursor:pointer;
-    transition:background 0.2s ease;
+    transition:box-shadow 0.25s ease, transform 0.2s ease;
+    font-family:'Inter', sans-serif;
   }
-  .submit-btn:hover{background:var(--sage);}
-  .submit-note{font-size:0.76rem; color:#7C8B8C; margin-top:10px; text-align:center;}
+  .submit-btn:hover{box-shadow:0 0 26px rgba(111,255,195,0.4); transform:translateY(-1px);}
+  .submit-note{font-size:0.76rem; color:var(--text-mute); margin-top:12px; text-align:center; font-family:'JetBrains Mono', monospace;}
 
   /* ---------- FOOTER ---------- */
-  footer{background:var(--navy-deep); color:var(--sage-soft); padding:44px 0 26px;}
-  .footer-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:22px; padding-bottom:26px; border-bottom:1px solid rgba(255,255,255,0.1);}
-  .footer-grid .brand{color:var(--white);}
-  .footer-grid .brand-dot{background:var(--sage);}
-  .footer-contact{font-size:0.85rem; line-height:1.8;}
-  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:18px; font-size:0.76rem; opacity:0.6;}
+  footer{background:var(--panel); color:var(--text-dim); padding:48px 0 26px; border-top:1px solid var(--line);}
+  .footer-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:22px; padding-bottom:26px; border-bottom:1px solid var(--line);}
+  .footer-grid .brand{color:var(--text);}
+  .footer-contact{font-size:0.85rem; line-height:1.9; font-family:'JetBrains Mono', monospace;}
+  .footer-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:18px; font-size:0.74rem; color:var(--text-mute); font-family:'JetBrains Mono', monospace;}
 
   .wa-float{
     position:fixed; bottom:22px; right:22px; z-index:60;
-    background:#25D366; width:56px; height:56px; border-radius:50%;
+    background:#0D1512; width:56px; height:56px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    box-shadow:0 6px 20px rgba(0,0,0,0.2);
+    border:1px solid var(--line);
+    box-shadow:0 0 24px rgba(111,255,195,0.18);
     text-decoration:none;
+    transition:box-shadow 0.25s ease, transform 0.2s ease;
   }
+  .wa-float:hover{box-shadow:0 0 30px rgba(111,255,195,0.35); transform:translateY(-2px);}
 </style>
 </head>
 <body>
 
-<div id="toastContainer"></div>
+<div class="bg-grid"></div>
+<div class="bg-glow g1"></div>
+<div class="bg-glow g2"></div>
+<div class="bg-glow g3"></div>
 
 <nav>
   <div class="brand"><span class="brand-dot"></span>Dogbaby</div>
-  <a class="nav-cta" href="#booking">Reservar turno</a>
+  <div class="nav-right">
+    <span class="nav-net mono"><span class="dot2"></span>Red de Cuidado Activa</span>
+    <a class="nav-cta" href="#booking">Reservar turno</a>
+  </div>
 </nav>
+
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
 
 <!-- ================= HERO ================= -->
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Ahora con turnos online</div>
-      <h1>Cuidado que tu mascota <i>sí</i> va a disfrutar.</h1>
-      <p>Consultas, vacunas y peluquería para perros y gatos. Reservá un turno en menos de un minuto, sin cola telefónica.</p>
+      <div class="eyebrow">Historial clínico verificado</div>
+      <h1>El cuidado de tu mascota, <span class="grad-text">registrado para siempre</span>.</h1>
+      <p>Cada control, vacuna y estudio queda sellado en el pasaporte de salud de tu mascota. Reservá un turno en menos de un minuto, sin cola telefónica.</p>
       <div class="hero-actions">
         <a class="btn-primary" href="#booking">Reservar un turno →</a>
         <a class="btn-ghost" href="https://wa.me/5491100000000" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
       </div>
-    </div>
-    <div class="vitals-card">
-      <svg class="dog-mascot" viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path class="dog-tail" d="M28,55 C10,50 5,35 15,20" fill="none" stroke="var(--sage-soft)" stroke-width="6" stroke-linecap="round"/>
-        <ellipse class="dog-body" cx="65" cy="70" rx="34" ry="25" fill="var(--sage-soft)" opacity="0.16" stroke="var(--sage-soft)" stroke-width="2"/>
-        <rect x="52" y="84" width="8" height="14" rx="4" fill="var(--sage-soft)" opacity="0.5"/>
-        <rect x="72" y="84" width="8" height="14" rx="4" fill="var(--sage-soft)" opacity="0.5"/>
-        <path class="dog-ear" d="M87,25 C79,17 77,29 83,35 Z" fill="var(--sage-soft)" opacity="0.45"/>
-        <circle cx="98" cy="42" r="21" fill="var(--sage-soft)" opacity="0.18" stroke="var(--sage-soft)" stroke-width="2"/>
-        <ellipse cx="117" cy="48" rx="11" ry="8" fill="var(--sage-soft)" opacity="0.18" stroke="var(--sage-soft)" stroke-width="2"/>
-        <circle cx="126" cy="46" r="3" fill="var(--amber)"/>
-        <circle class="dog-eye" cx="102" cy="36" r="3" fill="var(--white)"/>
-        <path d="M88,54 Q98,60 110,54" fill="none" stroke="var(--amber)" stroke-width="4" stroke-linecap="round"/>
-        <circle cx="99" cy="59" r="3" fill="var(--amber)"/>
-      </svg>
-      <div class="vitals-top">
-        <span class="mono">MONITOR DEL PACIENTE</span>
-        <span class="vitals-status"><span class="dot"></span>ESTABLE</span>
+      <div class="hero-trust">
+        <span><b>2.400+</b> pasaportes activos</span>
+        <span><b>100%</b> historial trazable</span>
+        <span><b>Lun–Sáb</b> 9:00–19:00</span>
       </div>
-      <svg class="vitals-line" viewBox="0 0 300 90" preserveAspectRatio="none">
-        <path d="M0,45 L40,45 L55,45 L65,15 L75,75 L85,30 L95,45 L140,45 L155,45 L165,20 L175,70 L185,35 L195,45 L300,45"/>
-      </svg>
-      <div class="vitals-labels">
-        <div><span class="val">38.5°</span><br><span class="lab">TEMPERATURA</span></div>
-        <div><span class="val">120</span><br><span class="lab">RITMO CARDÍACO</span></div>
-        <div><span class="val">Apto</span><br><span class="lab">ÚLTIMO CONTROL</span></div>
+    </div>
+
+    <div class="passport">
+      <div class="passport-inner">
+        <div class="passport-top">
+          <div>
+            <span class="mono">PASAPORTE DE SALUD</span>
+            <div class="passport-id mono" id="passportId">ID · 0x7F3A2C9E</div>
+          </div>
+          <span class="passport-status"><span class="dot"></span>VERIFICADO</span>
+        </div>
+
+        <svg class="dog-mascot" viewBox="0 0 140 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path class="dog-tail" d="M28,55 C10,50 5,35 15,20" fill="none" stroke="var(--mint)" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+          <ellipse class="dog-body" cx="65" cy="70" rx="34" ry="25" fill="var(--mint)" opacity="0.12" stroke="var(--mint)" stroke-width="2"/>
+          <rect x="52" y="84" width="8" height="14" rx="4" fill="var(--mint)" opacity="0.4"/>
+          <rect x="72" y="84" width="8" height="14" rx="4" fill="var(--mint)" opacity="0.4"/>
+          <path class="dog-ear" d="M87,25 C79,17 77,29 83,35 Z" fill="var(--violet)" opacity="0.4"/>
+          <circle cx="98" cy="42" r="21" fill="var(--mint)" opacity="0.13" stroke="var(--mint)" stroke-width="2"/>
+          <ellipse cx="117" cy="48" rx="11" ry="8" fill="var(--mint)" opacity="0.13" stroke="var(--mint)" stroke-width="2"/>
+          <circle cx="126" cy="46" r="3" fill="var(--amber)"/>
+          <circle class="dog-eye" cx="102" cy="36" r="3" fill="var(--text)"/>
+          <path d="M88,54 Q98,60 110,54" fill="none" stroke="var(--amber)" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="99" cy="59" r="3" fill="var(--amber)"/>
+        </svg>
+
+        <svg class="vitals-line" viewBox="0 0 300 90" preserveAspectRatio="none">
+          <path d="M0,45 L40,45 L55,45 L65,15 L75,75 L85,30 L95,45 L140,45 L155,45 L165,20 L175,70 L185,35 L195,45 L300,45"/>
+        </svg>
+        <div class="vitals-labels">
+          <div><span class="val">38.5°</span><br><span class="lab">TEMPERATURA</span></div>
+          <div><span class="val">120</span><br><span class="lab">RITMO CARDÍACO</span></div>
+          <div><span class="val">Apto</span><br><span class="lab">ÚLTIMO CONTROL</span></div>
+        </div>
+
+        <div class="passport-foot">
+          <span>Sellado por Dogbaby Veterinaria</span>
+          <span class="conf" id="confCount">✓ 18 confirmaciones</span>
+        </div>
       </div>
     </div>
   </div>
@@ -571,34 +582,37 @@
 <!-- ================= SERVICES ================= -->
 <section class="services wrap">
   <div class="section-head">
-    <h2>Qué atendemos, de un vistazo</h2>
-    <p>Cada visita termina con notas claras enviadas directo a tu celular.</p>
+    <div>
+      <div class="eyebrow">Protocolos disponibles</div>
+      <h2>Qué atendemos, de un vistazo</h2>
+    </div>
+    <p>Cada visita se cierra con notas claras enviadas directo a tu celular, sin nada que se pierda.</p>
   </div>
-  <div class="record-list">
-    <div class="record">
-      <span class="code mono">CG</span>
-      <div><h3>Control General</h3><p class="desc">Examen físico completo, control de peso y chequeo de salud para perros y gatos.</p></div>
-      <span class="dur">~30 min</span>
+  <div class="protocol-grid">
+    <div class="protocol">
+      <div class="protocol-top"><span class="code mono">CG</span><span class="dur mono">~30 min</span></div>
+      <h3>Control General</h3>
+      <p class="desc">Examen físico completo, control de peso y chequeo de salud para perros y gatos.</p>
     </div>
-    <div class="record">
-      <span class="code mono">VA</span>
-      <div><h3>Vacunación</h3><p class="desc">Vacunas obligatorias y opcionales, con seguimiento del calendario a tu nombre.</p></div>
-      <span class="dur">~15 min</span>
+    <div class="protocol">
+      <div class="protocol-top"><span class="code mono">VA</span><span class="dur mono">~15 min</span></div>
+      <h3>Vacunación</h3>
+      <p class="desc">Vacunas obligatorias y opcionales, con seguimiento del calendario a tu nombre.</p>
     </div>
-    <div class="record">
-      <span class="code mono">PD</span>
-      <div><h3>Peluquería &amp; Dental</h3><p class="desc">Baño, corte de pelo, cuidado de uñas y control dental.</p></div>
-      <span class="dur">~45 min</span>
+    <div class="protocol">
+      <div class="protocol-top"><span class="code mono">PD</span><span class="dur mono">~45 min</span></div>
+      <h3>Peluquería &amp; Dental</h3>
+      <p class="desc">Baño, corte de pelo, cuidado de uñas y control dental.</p>
     </div>
-    <div class="record">
-      <span class="code mono">DX</span>
-      <div><h3>Diagnóstico &amp; Cirugía</h3><p class="desc">Análisis de sangre, imágenes y procedimientos menores, explicados antes de avanzar.</p></div>
-      <span class="dur">Según consulta</span>
+    <div class="protocol">
+      <div class="protocol-top"><span class="code mono">DX</span><span class="dur mono">Según consulta</span></div>
+      <h3>Diagnóstico &amp; Cirugía</h3>
+      <p class="desc">Análisis de sangre, imágenes y procedimientos menores, explicados antes de avanzar.</p>
     </div>
-    <div class="record">
-      <span class="code mono">UR</span>
-      <div><h3>Urgencias</h3><p class="desc">Turnos del mismo día reservados para lo que no puede esperar.</p></div>
-      <span class="dur">Prioridad</span>
+    <div class="protocol">
+      <div class="protocol-top"><span class="code mono">UR</span><span class="dur mono">Prioridad</span></div>
+      <h3>Urgencias</h3>
+      <p class="desc">Turnos del mismo día reservados para lo que no puede esperar.</p>
     </div>
   </div>
 </section>
@@ -607,13 +621,16 @@
 <section class="process">
   <div class="wrap">
     <div class="section-head" style="margin-bottom:0;">
-      <h2>Tres pasos para tu turno</h2>
+      <div>
+        <div class="eyebrow">Reserva en 3 pasos</div>
+        <h2>Cómo se confirma tu turno</h2>
+      </div>
       <p>No hace falta llamar, salvo que prefieras hablar.</p>
     </div>
     <div class="process-grid">
-      <div class="step"><span class="n">01</span><h3>Contanos sobre tu mascota</h3><p>Especie, qué le pasa, y más o menos cuándo te queda bien.</p></div>
-      <div class="step"><span class="n">02</span><h3>Confirmamos por WhatsApp</h3><p>Te llega un horario confirmado, generalmente en pocas horas.</p></div>
-      <div class="step"><span class="n">03</span><h3>La traés a la consulta</h3><p>Te enviamos notas escritas después de cada visita, así no se te olvida nada.</p></div>
+      <div class="step"><span class="n mono">01</span><h3>Contanos sobre tu mascota</h3><p>Especie, qué le pasa, y más o menos cuándo te queda bien.</p></div>
+      <div class="step"><span class="n mono">02</span><h3>Confirmamos por WhatsApp</h3><p>Te llega un horario confirmado, generalmente en pocas horas.</p></div>
+      <div class="step"><span class="n mono">03</span><h3>La traés a la consulta</h3><p>Sellamos la visita en su pasaporte, con notas que no se pierden.</p></div>
     </div>
   </div>
 </section>
@@ -625,7 +642,11 @@
       <div class="eyebrow">Solicitá un turno</div>
       <h2>Conseguí un horario sin música de espera.</h2>
       <p>Completá esto y se abre directo en WhatsApp con todo ya cargado — solo tenés que enviarlo.</p>
-      <div class="live-chip"><span class="pulse-dot"></span><span id="liveCount" class="live-num">14</span><span>&nbsp;turnos reservados esta semana</span></div>
+      <div class="mini-log mono">
+        <div><span class="ok">✓</span> Rocky — Vacunación — hoy 10:40</div>
+        <div><span class="ok">✓</span> Mia — Control General — hoy 09:15</div>
+        <div><span class="ok">✓</span> Toby — Peluquería &amp; Dental — ayer 17:20</div>
+      </div>
     </div>
     <form class="booking-form" id="bookingForm">
       <div class="field">
@@ -668,7 +689,6 @@
             <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
           </div>
           <div class="cal-grid" id="calGrid"></div>
-          <div class="cal-availability" id="calAvailability"><span class="av-dot"></span><span>Elegí un día para ver la disponibilidad</span></div>
         </div>
       </div>
       <div class="field">
@@ -680,31 +700,18 @@
         </div>
       </div>
       <input type="hidden" id="date" value="">
-      <button type="submit" class="submit-btn">Revisar y enviar →</button>
-      <p class="submit-note">Vas a poder confirmar los datos antes de enviarlos.</p>
+      <button type="submit" class="submit-btn">Confirmar turno por WhatsApp →</button>
+      <p class="submit-note">Se abre WhatsApp con tus datos ya completados.</p>
     </form>
   </div>
 </section>
-
-<!-- ================= CONFIRM MODAL ================= -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-card">
-    <div class="eyebrow">Confirmá tu turno</div>
-    <h3>¿Está todo bien?</h3>
-    <div class="modal-summary" id="modalSummary"></div>
-    <div class="modal-actions">
-      <button type="button" class="btn-ghost" id="modalEdit">Editar</button>
-      <button type="button" class="submit-btn" id="modalConfirm">Confirmar y enviar</button>
-    </div>
-  </div>
-</div>
 
 <footer>
   <div class="wrap">
     <div class="footer-grid">
       <div>
         <div class="brand"><span class="brand-dot"></span>Dogbaby</div>
-        <p style="font-size:0.84rem; margin-top:10px; max-width:32ch; opacity:0.8;">Atención veterinaria independiente, con turnos online.</p>
+        <p style="font-size:0.84rem; margin-top:10px; max-width:32ch; opacity:0.8;">Atención veterinaria independiente, con historial verificado y turnos online.</p>
       </div>
       <div class="footer-contact">
         WhatsApp: +54 9 11 0000-0000<br>
@@ -720,10 +727,49 @@
 </footer>
 
 <a class="wa-float" href="https://wa.me/5491100000000" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.03 4C7.6 4 4 7.6 4 12.02c0 1.42.37 2.8 1.08 4.02L4 20l4.06-1.06a8.03 8.03 0 0 0 3.97 1.01h.01c4.42 0 8.02-3.6 8.02-8.02 0-2.14-.84-4.15-2.46-5.61Zm-5.57 12.3h-.01a6.7 6.7 0 0 1-3.4-.93l-.24-.14-2.4.63.64-2.34-.16-.24a6.66 6.66 0 0 1-1.02-3.58c0-3.68 3-6.68 6.69-6.68 1.79 0 3.47.7 4.73 1.96a6.63 6.63 0 0 1 1.96 4.72c0 3.69-3 6.6-6.79 6.6Zm3.66-4.96c-.2-.1-1.18-.58-1.36-.65-.18-.07-.32-.1-.45.1-.13.2-.51.65-.63.78-.11.13-.23.15-.43.05-.2-.1-.85-.31-1.61-.99-.6-.53-1-1.19-1.11-1.39-.12-.2-.01-.3.09-.4.09-.09.2-.23.3-.35.1-.11.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.08-.61-1.48-.16-.39-.33-.33-.45-.34l-.38-.01c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.67 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.84.32 1.13.41.47.15.9.13 1.24.08.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.95-.05-.09-.18-.14-.38-.24Z"/></svg>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#6FFFC3"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.03 4C7.6 4 4 7.6 4 12.02c0 1.42.37 2.8 1.08 4.02L4 20l4.06-1.06a8.03 8.03 0 0 0 3.97 1.01h.01c4.42 0 8.02-3.6 8.02-8.02 0-2.14-.84-4.15-2.46-5.61Zm-5.57 12.3h-.01a6.7 6.7 0 0 1-3.4-.93l-.24-.14-2.4.63.64-2.34-.16-.24a6.66 6.66 0 0 1-1.02-3.58c0-3.68 3-6.68 6.69-6.68 1.79 0 3.47.7 4.73 1.96a6.63 6.63 0 0 1 1.96 4.72c0 3.69-3 6.6-6.79 6.6Zm3.66-4.96c-.2-.1-1.18-.58-1.36-.65-.18-.07-.32-.1-.45.1-.13.2-.51.65-.63.78-.11.13-.23.15-.43.05-.2-.1-.85-.31-1.61-.99-.6-.53-1-1.19-1.11-1.39-.12-.2-.01-.3.09-.4.09-.09.2-.23.3-.35.1-.11.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.45-1.08-.61-1.48-.16-.39-.33-.33-.45-.34l-.38-.01c-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.67 0 .98.72 1.93.82 2.06.1.13 1.4 2.14 3.4 3 .47.2.84.32 1.13.41.47.15.9.13 1.24.08.38-.06 1.18-.48 1.34-.95.17-.46.17-.86.12-.95-.05-.09-.18-.14-.38-.24Z"/></svg>
 </a>
 
 <script>
+  // ---------- FAKE LIVE HASH + CONFIRMATIONS ----------
+  function randomHex(len){
+    let s = '';
+    const chars = '0123456789ABCDEF';
+    for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
+    return s;
+  }
+  const passportId = document.getElementById('passportId');
+  let confCount = 18;
+  const confEl = document.getElementById('confCount');
+  setInterval(() => {
+    passportId.textContent = 'ID · 0x' + randomHex(8);
+  }, 3800);
+  setInterval(() => {
+    confCount += 1;
+    confEl.textContent = `✓ ${confCount} confirmaciones`;
+  }, 9000);
+
+  // ---------- TICKER ----------
+  const tickerItems = [
+    { ok:true, text:'Bloque #1182 confirmado', meta:'Vacunación · Rocky · hace 2 min' },
+    { ok:true, text:'Bloque #1181 confirmado', meta:'Control General · Mia · hace 11 min' },
+    { ok:true, text:'Bloque #1180 confirmado', meta:'Peluquería &amp; Dental · Toby · hace 24 min' },
+    { ok:true, text:'Bloque #1179 confirmado', meta:'Diagnóstico · Kiwi · hace 38 min' },
+    { ok:true, text:'Bloque #1178 confirmado', meta:'Urgencia atendida · Nala · hace 51 min' },
+    { ok:true, text:'Bloque #1177 confirmado', meta:'Vacunación · Simón · hace 1 h' },
+  ];
+  const track = document.getElementById('tickerTrack');
+  function buildTicker(){
+    let html = '';
+    for(let rep=0; rep<3; rep++){
+      tickerItems.forEach(it => {
+        html += `<span class="ticker-item"><span class="ok">✓</span><b>${it.text}</b> — ${it.meta}</span>`;
+      });
+    }
+    track.innerHTML = html;
+  }
+  buildTicker();
+
   // ---------- CALENDAR ----------
   const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   let calDate = new Date();
@@ -732,44 +778,6 @@
   let selectedSlot = null;
   const today = new Date();
   today.setHours(0,0,0,0);
-
-  // Deterministic pseudo-random availability per date, so it feels live but stays
-  // consistent for a given day within the session (not real backend data).
-  function seedFromDate(d){
-    return d.getFullYear() * 372 + (d.getMonth() + 1) * 31 + d.getDate();
-  }
-  function isSlotFull(dateObj, slotName){
-    const seed = seedFromDate(dateObj);
-    if(slotName === 'Mañana (9–12)') return seed % 5 === 0;
-    if(slotName === 'Tarde (12–16)') return seed % 4 === 0;
-    if(slotName === 'Noche (16–19)') return seed % 7 === 0;
-    return false;
-  }
-  function updateSlotAvailability(){
-    const availEl = document.getElementById('calAvailability');
-    const slots = document.querySelectorAll('.slot');
-    if(!selectedDate){
-      availEl.classList.remove('low');
-      availEl.innerHTML = '<span class="av-dot"></span><span>Elegí un día para ver la disponibilidad</span>';
-      slots.forEach(s => { s.classList.remove('full'); s.disabled = false; });
-      return;
-    }
-    let openCount = 0;
-    slots.forEach(s => {
-      const full = isSlotFull(selectedDate, s.dataset.slot);
-      s.classList.toggle('full', full);
-      s.disabled = full;
-      if(full && selectedSlot === s.dataset.slot){
-        selectedSlot = null;
-        s.classList.remove('selected');
-      }
-      if(!full) openCount++;
-    });
-    availEl.classList.toggle('low', openCount <= 1);
-    availEl.innerHTML = openCount > 0
-      ? `<span class="av-dot"></span><span>${openCount} de 3 franjas disponibles ese día</span>`
-      : `<span class="av-dot"></span><span>Sin cupos ese día — probá otra fecha</span>`;
-  }
 
   function renderCalendar(){
     const grid = document.getElementById('calGrid');
@@ -780,7 +788,6 @@
     const year = calDate.getFullYear();
     const month = calDate.getMonth();
     const firstDay = new Date(year, month, 1);
-    // Monday-first weekday index (0=Mon ... 6=Sun)
     let startOffset = (firstDay.getDay() + 6) % 7;
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -799,7 +806,7 @@
       thisDate.setHours(0,0,0,0);
 
       if(thisDate < today || thisDate.getDay() === 0){
-        btn.disabled = true; // past dates and Sundays (closed) disabled
+        btn.disabled = true;
       }
       if(thisDate.getTime() === today.getTime()){
         btn.classList.add('today');
@@ -811,7 +818,6 @@
         selectedDate = thisDate;
         updateHiddenDate();
         renderCalendar();
-        updateSlotAvailability();
       });
       grid.appendChild(btn);
     }
@@ -837,7 +843,6 @@
 
   document.querySelectorAll('.slot').forEach(btn => {
     btn.addEventListener('click', () => {
-      if(btn.classList.contains('full')) return;
       document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
       btn.classList.add('selected');
       selectedSlot = btn.dataset.slot;
@@ -846,90 +851,17 @@
   });
 
   renderCalendar();
-  updateSlotAvailability();
 
-  // ---------- TOASTS ----------
-  function showToast(message, emoji){
-    const container = document.getElementById('toastContainer');
-    const el = document.createElement('div');
-    el.className = 'toast';
-    el.innerHTML = `<span class="toast-emoji">${emoji || '🐾'}</span><span>${message}</span>`;
-    container.appendChild(el);
-    setTimeout(() => el.remove(), 4000);
-  }
-
-  const socialProofPool = [
-    'Martina reservó un Control General hace instantes.',
-    'Facundo confirmó una Vacunación para mañana.',
-    'Sofía pidió un turno de Peluquería & Dental.',
-    'Bruno reservó una consulta de Urgencia.',
-    'Lucía agendó un Diagnóstico para la semana que viene.',
-    'Nico acaba de solicitar un Control General.'
-  ];
-  function scheduleSocialProof(){
-    const delay = 9000 + Math.random() * 9000;
-    setTimeout(() => {
-      const msg = socialProofPool[Math.floor(Math.random() * socialProofPool.length)];
-      showToast(msg, '🐾');
-      scheduleSocialProof();
-    }, delay);
-  }
-  scheduleSocialProof();
-
-  // ---------- LIVE COUNTER ----------
-  const liveCountEl = document.getElementById('liveCount');
-  function bumpLiveCount(){
-    liveCountEl.textContent = parseInt(liveCountEl.textContent, 10) + 1;
-    liveCountEl.classList.add('bump');
-    setTimeout(() => liveCountEl.classList.remove('bump'), 300);
-    setTimeout(bumpLiveCount, 22000 + Math.random() * 20000);
-  }
-  setTimeout(bumpLiveCount, 18000 + Math.random() * 12000);
-
-  // ---------- FORM SUBMIT → CONFIRMATION MODAL ----------
-  const modalOverlay = document.getElementById('modalOverlay');
-  const bookingForm = document.getElementById('bookingForm');
-  const calCard = document.querySelector('.cal');
-
-  bookingForm.addEventListener('submit', function(e){
+  // ---------- FORM SUBMIT ----------
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
     e.preventDefault();
-    const owner = document.getElementById('owner').value.trim();
-    if(!owner){
-      document.getElementById('owner').focus();
-      return;
-    }
-    if(!selectedDate || !selectedSlot){
-      calCard.classList.add('shake');
-      setTimeout(() => calCard.classList.remove('shake'), 400);
-      return;
-    }
-
+    const owner = document.getElementById('owner').value || 'me';
     const pet = document.getElementById('pet').value || 'mi mascota';
     const species = document.getElementById('species').value;
     const service = document.getElementById('service').value;
-    const dateStr = document.getElementById('date').value;
-
-    document.getElementById('modalSummary').innerHTML = `
-      <div><span>Dueño/a</span><span>${owner}</span></div>
-      <div><span>Mascota</span><span>${pet} (${species})</span></div>
-      <div><span>Motivo</span><span>${service}</span></div>
-      <div><span>Fecha y horario</span><span>${dateStr}</span></div>
-    `;
-    modalOverlay.classList.add('open');
-
-    document.getElementById('modalConfirm').onclick = function(){
-      const text = `Hola, quiero reservar un turno.%0ADueño/a: ${owner}%0AMascota: ${pet} (${species})%0AMotivo: ${service}%0AFecha/horario preferido: ${dateStr}`;
-      window.open(`https://wa.me/5491100000000?text=${text}`, '_blank');
-      modalOverlay.classList.remove('open');
-      showToast('¡Listo! Tu solicitud se envió por WhatsApp.', '✅');
-    };
-  });
-
-  document.getElementById('modalEdit').addEventListener('click', () => {
-    modalOverlay.classList.remove('open');
-  });
-  modalOverlay.addEventListener('click', (e) => {
-    if(e.target === modalOverlay) modalOverlay.classList.remove('open');
+    const date = document.getElementById('date').value || 'a coordinar';
+    const text = `Hola, quiero reservar un turno.%0ADueño/a: ${owner}%0AMascota: ${pet} (${species})%0AMotivo: ${service}%0AFecha/horario preferido: ${date}`;
+    window.open(`https://wa.me/5491100000000?text=${text}`, '_blank');
   });
 </script>
 
